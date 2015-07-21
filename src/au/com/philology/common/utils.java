@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.util.Log;
+import android.widget.Toast;
 
 public class utils
 {
@@ -32,5 +33,10 @@ public class utils
 					}
 				}).create();
 		dialog.show();
+	}
+	
+	public static void showTempInfor(Activity theActivity, String msg)
+	{
+		Toast.makeText(theActivity, msg, Toast.LENGTH_LONG).show();
 	}
 }
