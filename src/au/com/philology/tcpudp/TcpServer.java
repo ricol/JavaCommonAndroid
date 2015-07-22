@@ -54,24 +54,10 @@ public class TcpServer extends BasicNet implements IServerTCP
 	@Override
 	public void stopListenning()
 	{
-		try
-		{
-			// TODO Auto-generated method stub
-			if (this.theServerSocketForListening != null)
-			{
-				if (!this.theServerSocketForListening.isClosed())
-				{
-					this.theServerSocketForListening.close();
-					this.theServerSocketForListening = null;
-				}
-			}
-		} catch (IOException ex)
-		{
-			Logger.getLogger(TcpServer.class.getName()).log(Level.SEVERE, null,
-					ex);
-		}
-
-		for (CommunicationThread thread : this.allCommunicationThreads)
+		ArrayList<CommunicationThread> tmpThreads = new ArrayList<CommunicationThread>();
+		tmpThreads.addAll(this.allCommunicationThreads);
+		
+		for (CommunicationThread thread : tmpThreads)
 		{
 			try
 			{
@@ -88,6 +74,25 @@ public class TcpServer extends BasicNet implements IServerTCP
 				Logger.getLogger(TcpServer.class.getName()).log(Level.SEVERE,
 						null, ex);
 			}
+		}
+		
+		tmpThreads.clear();
+		
+		try
+		{
+			// TODO Auto-generated method stub
+			if (this.theServerSocketForListening != null)
+			{
+				if (!this.theServerSocketForListening.isClosed())
+				{
+					this.theServerSocketForListening.close();
+					this.theServerSocketForListening = null;
+				}
+			}
+		} catch (IOException ex)
+		{
+			Logger.getLogger(TcpServer.class.getName()).log(Level.SEVERE, null,
+					ex);
 		}
 
 		this.theServerDelegate.ServerDelegateStopListening(this.port);

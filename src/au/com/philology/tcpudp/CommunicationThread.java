@@ -58,6 +58,7 @@ public abstract class CommunicationThread extends Thread
 	{
 		if (this.communicationThreadDelegate != null)
 			this.communicationThreadDelegate.CommunicationThreadStart(this);
+		
 		while (!Thread.currentThread().isInterrupted())
 		{
 			String content;
