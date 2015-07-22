@@ -3,6 +3,7 @@ package au.com.philology.dialogs;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.view.View;
 
 public class DialogProgress
 {
@@ -11,17 +12,23 @@ public class DialogProgress
 	boolean bAutoCountdown;
 	MyThread theThread;
 	Activity theActivity;
+	String msg;
+	View contentView;
 
-	public DialogProgress(Activity theActivity, String title, String msg,
-			int max, boolean autoCountdown)
+	public DialogProgress(Activity theActivity, View contentView, String title,
+			String msg, int max, boolean autoCountdown)
 	{
 		bAutoCountdown = autoCountdown;
 		this.theActivity = theActivity;
+		this.contentView = contentView;
+		this.msg = msg;
+
 		mProgressDialog = new ProgressDialog(theActivity);
 		mProgressDialog.setIconAttribute(android.R.attr.alertDialogIcon);
 		mProgressDialog.setTitle(title);
 		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		mProgressDialog.setMax(max);
+		mProgressDialog.setView(contentView);
 		mProgressDialog.setMessage(msg);
 		mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel",
 				new DialogInterface.OnClickListener()
@@ -82,7 +89,7 @@ public class DialogProgress
 					@Override
 					public void run()
 					{
-						aDialog.step();
+						aDialog.step(msg, 1, contentView);
 					}
 				});
 
@@ -94,21 +101,21 @@ public class DialogProgress
 					e.printStackTrace();
 				}
 			}
-			
+
 			aDialog.close();
 		}
 	}
 
-	public void step()
+	public void step(String msg, int value, View contentView)
 	{
 		if (mProgressDialog != null)
 		{
-			mProgressDialog.incrementProgressBy(1);
+			mProgressDialog.incrementProgressBy(value);
 
 			if (theDelegate != null)
 			{
-				theDelegate
-						.dialogProgressStepped(mProgressDialog.getProgress());
+				theDelegate.dialogProgressStepped(
+						mProgressDialog.getProgress(), contentView);
 			}
 		}
 	}
