@@ -50,13 +50,19 @@ public class BasicNet implements IScanTCP, ICommunicationThreadDelegate
 	@Override
 	public void CommunicationThreadStart(CommunicationThread thread)
 	{
-		this.allCommunicationThreads.add(thread);
+		synchronized (allCommunicationThreads)
+		{
+			this.allCommunicationThreads.add(thread);
+		}
 	}
 
 	@Override
 	public void CommunicationThreadEnd(CommunicationThread thread)
 	{
-		this.allCommunicationThreads.remove(thread);
+		synchronized (allCommunicationThreads)
+		{
+			this.allCommunicationThreads.remove(thread);
+		}
 	}
 
 	@Override
