@@ -20,13 +20,11 @@ public interface IScanDelegate
 
 	void ScanDelegateStartScanningIpForPort();
 
-	void ScanDelegateStartScanningPortForIp(String ip, int startPort,
-			int endPort);
+	void ScanDelegateStartScanningPortForIp(String ip, int startPort, int endPort);
 
 	void ScanDelegateIsScanningPortForIp(String ip, int port);
 
 	void ScanDelegatePortFoundForIp(String ip, int port);
 
-	void ScanDelegateCompleteScanningPortForIp(String ip, int startPort,
-			int endPort);
+	void ScanDelegateCompleteScanningPortForIp(String ip, int startPort, int endPort);
 }

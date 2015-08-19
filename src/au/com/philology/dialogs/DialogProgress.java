@@ -15,8 +15,7 @@ public class DialogProgress
 	String msg;
 	View contentView;
 
-	public DialogProgress(Activity theActivity, View contentView, String title,
-			String msg, int max, boolean autoCountdown)
+	public DialogProgress(Activity theActivity, View contentView, String title, String msg, int max, boolean autoCountdown)
 	{
 		bAutoCountdown = autoCountdown;
 		this.theActivity = theActivity;
@@ -30,14 +29,13 @@ public class DialogProgress
 		mProgressDialog.setMax(max);
 		mProgressDialog.setView(contentView);
 		mProgressDialog.setMessage(msg);
-		mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel",
-				new DialogInterface.OnClickListener()
-				{
-					public void onClick(DialogInterface dialog, int whichButton)
-					{
+		mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener()
+		{
+			public void onClick(DialogInterface dialog, int whichButton)
+			{
 
-					}
-				});
+			}
+		});
 	}
 
 	public void start()
@@ -48,8 +46,7 @@ public class DialogProgress
 			mProgressDialog.show();
 			if (theDelegate != null)
 			{
-				theDelegate.dialogProgressStarted(0,
-						this.mProgressDialog.getMax());
+				theDelegate.dialogProgressStarted(0, this.mProgressDialog.getMax());
 			}
 
 			if (bAutoCountdown)
@@ -114,8 +111,7 @@ public class DialogProgress
 
 			if (theDelegate != null)
 			{
-				theDelegate.dialogProgressStepped(
-						mProgressDialog.getProgress(), contentView);
+				theDelegate.dialogProgressStepped(mProgressDialog.getProgress(), contentView);
 			}
 		}
 	}

@@ -45,11 +45,9 @@ public class TextRecord implements ParsedNdefRecord
 		mText = Preconditions.checkNotNull(text);
 	}
 
-	public View getView(Activity activity, LayoutInflater inflater,
-			ViewGroup parent, int offset)
+	public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent, int offset)
 	{
-		TextView text = (TextView) inflater.inflate(R.layout.tag_text, parent,
-				false);
+		TextView text = (TextView) inflater.inflate(R.layout.tag_text, parent, false);
 		text.setText(mText);
 		return text;
 	}
@@ -70,10 +68,8 @@ public class TextRecord implements ParsedNdefRecord
 	// TODO: deal with text fields which span multiple NdefRecords
 	public static TextRecord parse(NdefRecord record)
 	{
-		Preconditions
-				.checkArgument(record.getTnf() == NdefRecord.TNF_WELL_KNOWN);
-		Preconditions.checkArgument(Arrays.equals(record.getType(),
-				NdefRecord.RTD_TEXT));
+		Preconditions.checkArgument(record.getTnf() == NdefRecord.TNF_WELL_KNOWN);
+		Preconditions.checkArgument(Arrays.equals(record.getType(), NdefRecord.RTD_TEXT));
 		try
 		{
 			byte[] payload = record.getPayload();
@@ -90,13 +86,10 @@ public class TextRecord implements ParsedNdefRecord
 			 * 
 			 * Bits 5 to 0 are the length of the IANA language code.
 			 */
-			String textEncoding = ((payload[0] & 0200) == 0) ? "UTF-8"
-					: "UTF-16";
+			String textEncoding = ((payload[0] & 0200) == 0) ? "UTF-8" : "UTF-16";
 			int languageCodeLength = payload[0] & 0077;
-			String languageCode = new String(payload, 1, languageCodeLength,
-					"US-ASCII");
-			String text = new String(payload, languageCodeLength + 1,
-					payload.length - languageCodeLength - 1, textEncoding);
+			String languageCode = new String(payload, 1, languageCodeLength, "US-ASCII");
+			String text = new String(payload, languageCodeLength + 1, payload.length - languageCodeLength - 1, textEncoding);
 			return new TextRecord(languageCode, text);
 		} catch (UnsupportedEncodingException e)
 		{

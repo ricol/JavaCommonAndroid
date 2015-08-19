@@ -11,15 +11,13 @@ public class AutoSelectListView extends ListView
 {
 	public int theSelectedColor = Color.BLUE;
 
-	public AutoSelectListView(Context context, AttributeSet attrs,
-			int defStyleAttr, int defStyleRes)
+	public AutoSelectListView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes)
 	{
 		super(context, attrs, defStyleAttr, defStyleRes);
 		// TODO Auto-generated constructor stub
 	}
 
-	public AutoSelectListView(Context context, AttributeSet attrs,
-			int defStyleAttr)
+	public AutoSelectListView(Context context, AttributeSet attrs, int defStyleAttr)
 	{
 		super(context, attrs, defStyleAttr);
 		// TODO Auto-generated constructor stub

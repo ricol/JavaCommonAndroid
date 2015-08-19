@@ -22,9 +22,7 @@ public class utils
 
 	public static void showDialog(Activity theActivity, String title, String msg)
 	{
-		AlertDialog dialog = new AlertDialog.Builder(theActivity)
-				.setIconAttribute(android.R.attr.alertDialogIcon)
-				.setTitle(title).setMessage(msg)
+		AlertDialog dialog = new AlertDialog.Builder(theActivity).setIconAttribute(android.R.attr.alertDialogIcon).setTitle(title).setMessage(msg)
 				.setPositiveButton("OK", new DialogInterface.OnClickListener()
 				{
 					public void onClick(DialogInterface dialog, int whichButton)
@@ -34,7 +32,7 @@ public class utils
 				}).create();
 		dialog.show();
 	}
-	
+
 	public static void showTempInfor(Activity theActivity, String msg)
 	{
 		Toast.makeText(theActivity, msg, Toast.LENGTH_LONG).show();

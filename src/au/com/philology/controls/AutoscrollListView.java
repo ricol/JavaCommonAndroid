@@ -9,27 +9,24 @@ import android.widget.ListView;
 public class AutoscrollListView extends ListView
 {
 
-	public AutoscrollListView(Context context, AttributeSet attrs,
-			int defStyleAttr, int defStyleRes)
+	public AutoscrollListView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes)
 	{
 		super(context, attrs, defStyleAttr, defStyleRes);
 		// TODO Auto-generated constructor stub
 	}
-	
-	public AutoscrollListView(Context context, AttributeSet attrs,
-			int defStyleAttr)
+
+	public AutoscrollListView(Context context, AttributeSet attrs, int defStyleAttr)
 	{
 		super(context, attrs, defStyleAttr);
 		// TODO Auto-generated constructor stub
 	}
-	
-	public AutoscrollListView(Context context, AttributeSet attrs
-			)
+
+	public AutoscrollListView(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public AutoscrollListView(Context context)
 	{
 		super(context);

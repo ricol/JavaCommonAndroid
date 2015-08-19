@@ -33,8 +33,7 @@ public class TcpServer extends BasicNet implements IServerTCP
 		{
 			for (CommunicationThread thread : this.allCommunicationThreads)
 			{
-				if (thread.remoteAddress.equals(address)
-						&& thread.remotePort == Port)
+				if (thread.remoteAddress.equals(address) && thread.remotePort == Port)
 				{
 					thread.sendMessage(message);
 					break;
@@ -49,8 +48,7 @@ public class TcpServer extends BasicNet implements IServerTCP
 		this.stopListenning();
 
 		this.port = port;
-		new Thread(new ServerThread(this.theServerSocketForListening,
-				this.port, this)).start();
+		new Thread(new ServerThread(this.theServerSocketForListening, this.port, this)).start();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -74,8 +72,7 @@ public class TcpServer extends BasicNet implements IServerTCP
 				}
 			} catch (IOException ex)
 			{
-				Logger.getLogger(TcpServer.class.getName()).log(Level.SEVERE,
-						null, ex);
+				Logger.getLogger(TcpServer.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}
 
@@ -94,8 +91,7 @@ public class TcpServer extends BasicNet implements IServerTCP
 			}
 		} catch (IOException ex)
 		{
-			Logger.getLogger(TcpServer.class.getName()).log(Level.SEVERE, null,
-					ex);
+			Logger.getLogger(TcpServer.class.getName()).log(Level.SEVERE, null, ex);
 		}
 
 		this.theServerDelegate.ServerDelegateStopListening(this.port);
@@ -117,8 +113,7 @@ public class TcpServer extends BasicNet implements IServerTCP
 		ICommunicationThreadDelegate communicationThreadDelegate;
 		int port;
 
-		public ServerThread(ServerSocket ServerSocket, int port,
-				ICommunicationThreadDelegate communicationThreadDelegate)
+		public ServerThread(ServerSocket ServerSocket, int port, ICommunicationThreadDelegate communicationThreadDelegate)
 		{
 			this.port = port;
 			this.communicationThreadDelegate = communicationThreadDelegate;
@@ -138,13 +133,9 @@ public class TcpServer extends BasicNet implements IServerTCP
 				{
 					try
 					{
-						theServerDelegate
-								.ServerDelegateStartListening(this.port);
+						theServerDelegate.ServerDelegateStartListening(this.port);
 						Socket aClient = theServerSocketForListening.accept();
-						CommunicationThread aThread = new ServerCommunicationThread(
-								aClient,
-								ServerCommunicationThread.DEFAULT_WELCOME_MSG,
-								theServerDelegate,
+						CommunicationThread aThread = new ServerCommunicationThread(aClient, ServerCommunicationThread.DEFAULT_WELCOME_MSG, theServerDelegate,
 								this.communicationThreadDelegate);
 						aThread.start();
 					} catch (IOException e)
@@ -172,8 +163,7 @@ public class TcpServer extends BasicNet implements IServerTCP
 		{
 			for (int i = 0; i < this.allCommunicationThreads.size(); i++)
 			{
-				CommunicationThread thread = this.allCommunicationThreads
-						.get(i);
+				CommunicationThread thread = this.allCommunicationThreads.get(i);
 
 				if (thread.isAlive())
 				{
@@ -194,8 +184,7 @@ public class TcpServer extends BasicNet implements IServerTCP
 		{
 			for (int i = 0; i < this.allCommunicationThreads.size(); i++)
 			{
-				CommunicationThread thread = this.allCommunicationThreads
-						.get(i);
+				CommunicationThread thread = this.allCommunicationThreads.get(i);
 
 				if (thread.isAlive())
 				{

@@ -16,13 +16,11 @@ public class BasicNet implements IScanTCP, ICommunicationThreadDelegate
 	}
 
 	@Override
-	public void startScaningIpForPort(int port, int ipStart, int ipEnd,
-			int timeout)
+	public void startScaningIpForPort(int port, int ipStart, int ipEnd, int timeout)
 	{
 		this.stopScaningIpForPort();
 
-		theScannerIpForPortThread = new ScannerIpForPortThread(port, ipStart,
-				ipEnd, timeout, this.scanDelegate);
+		theScannerIpForPortThread = new ScannerIpForPortThread(port, ipStart, ipEnd, timeout, this.scanDelegate);
 		theScannerIpForPortThread.start();
 	}
 
@@ -66,13 +64,11 @@ public class BasicNet implements IScanTCP, ICommunicationThreadDelegate
 	}
 
 	@Override
-	public void startScanningPortForIp(String ip, int timeout, int startPort,
-			int endPort)
+	public void startScanningPortForIp(String ip, int timeout, int startPort, int endPort)
 	{
 		this.stopScanningPortForIp();
 
-		theScannerPortForIpThread = new ScannerPortForIpThread(ip, timeout,
-				startPort, endPort, this.scanDelegate);
+		theScannerPortForIpThread = new ScannerPortForIpThread(ip, timeout, startPort, endPort, this.scanDelegate);
 		theScannerPortForIpThread.start();
 	}
 
