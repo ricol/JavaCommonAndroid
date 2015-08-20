@@ -15,8 +15,7 @@ public class ScannerIpForPortThread extends Thread
 	int timeout;
 	IScanDelegate scanDelegate;
 
-	public ScannerIpForPortThread(int port, int ipStart, int ipEnd,
-			int timeout, IScanDelegate scanDelegate)
+	public ScannerIpForPortThread(int port, int ipStart, int ipEnd, int timeout, IScanDelegate scanDelegate)
 	{
 		this.port = port;
 		this.ipStart = ipStart;
@@ -37,12 +36,9 @@ public class ScannerIpForPortThread extends Thread
 			scanDelegate.ScanDelegateStartScanningIpForPort();
 		}
 
-		int tmpStart = this.ipStart >= 1 && this.ipStart <= 254 ? this.ipStart
-				: 1;
-		int tmpEnd = this.ipEnd >= tmpStart && this.ipEnd <= 254 ? this.ipEnd
-				: 254;
-		int tmpTimeout = this.timeout >= 10 && this.timeout <= 1000 ? this.timeout
-				: 50;
+		int tmpStart = this.ipStart >= 1 && this.ipStart <= 254 ? this.ipStart : 1;
+		int tmpEnd = this.ipEnd >= tmpStart && this.ipEnd <= 254 ? this.ipEnd : 254;
+		int tmpTimeout = this.timeout >= 10 && this.timeout <= 1000 ? this.timeout : 50;
 
 		for (int i = tmpStart; i <= tmpEnd; i++)
 		{

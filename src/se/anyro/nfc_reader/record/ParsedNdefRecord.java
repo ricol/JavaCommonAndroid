@@ -27,7 +27,6 @@ public interface ParsedNdefRecord
 	/**
 	 * Returns a view to display this record.
 	 */
-	public View getView(Activity activity, LayoutInflater inflater,
-			ViewGroup parent, int offset);
+	public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent, int offset);
 
 }

@@ -29,13 +29,15 @@ public class TcpServer extends BasicNet implements IServerTCP
 	@Override
 	public void send(String message, String address, int Port)
 	{
-		for (CommunicationThread thread : this.allCommunicationThreads)
+		synchronized (allCommunicationThreads)
 		{
-			if (thread.remoteAddress.equals(address)
-					&& thread.remotePort == Port)
+			for (CommunicationThread thread : this.allCommunicationThreads)
 			{
-				thread.sendMessage(message);
-				break;
+				if (thread.remoteAddress.equals(address) && thread.remotePort == Port)
+				{
+					thread.sendMessage(message);
+					break;
+				}
 			}
 		}
 	}
@@ -46,8 +48,7 @@ public class TcpServer extends BasicNet implements IServerTCP
 		this.stopListenning();
 
 		this.port = port;
-		new Thread(new ServerThread(this.theServerSocketForListening,
-				this.port, this)).start();
+		new Thread(new ServerThread(this.theServerSocketForListening, this.port, this)).start();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -56,7 +57,7 @@ public class TcpServer extends BasicNet implements IServerTCP
 	{
 		ArrayList<CommunicationThread> tmpThreads = new ArrayList<CommunicationThread>();
 		tmpThreads.addAll(this.allCommunicationThreads);
-		
+
 		for (CommunicationThread thread : tmpThreads)
 		{
 			try
@@ -71,13 +72,12 @@ public class TcpServer extends BasicNet implements IServerTCP
 				}
 			} catch (IOException ex)
 			{
-				Logger.getLogger(TcpServer.class.getName()).log(Level.SEVERE,
-						null, ex);
+				Logger.getLogger(TcpServer.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}
-		
+
 		tmpThreads.clear();
-		
+
 		try
 		{
 			// TODO Auto-generated method stub
@@ -91,8 +91,7 @@ public class TcpServer extends BasicNet implements IServerTCP
 			}
 		} catch (IOException ex)
 		{
-			Logger.getLogger(TcpServer.class.getName()).log(Level.SEVERE, null,
-					ex);
+			Logger.getLogger(TcpServer.class.getName()).log(Level.SEVERE, null, ex);
 		}
 
 		this.theServerDelegate.ServerDelegateStopListening(this.port);
@@ -114,8 +113,7 @@ public class TcpServer extends BasicNet implements IServerTCP
 		ICommunicationThreadDelegate communicationThreadDelegate;
 		int port;
 
-		public ServerThread(ServerSocket ServerSocket, int port,
-				ICommunicationThreadDelegate communicationThreadDelegate)
+		public ServerThread(ServerSocket ServerSocket, int port, ICommunicationThreadDelegate communicationThreadDelegate)
 		{
 			this.port = port;
 			this.communicationThreadDelegate = communicationThreadDelegate;
@@ -135,13 +133,9 @@ public class TcpServer extends BasicNet implements IServerTCP
 				{
 					try
 					{
-						theServerDelegate
-								.ServerDelegateStartListening(this.port);
+						theServerDelegate.ServerDelegateStartListening(this.port);
 						Socket aClient = theServerSocketForListening.accept();
-						CommunicationThread aThread = new ServerCommunicationThread(
-								aClient,
-								ServerCommunicationThread.DEFAULT_WELCOME_MSG,
-								theServerDelegate,
+						CommunicationThread aThread = new ServerCommunicationThread(aClient, ServerCommunicationThread.DEFAULT_WELCOME_MSG, theServerDelegate,
 								this.communicationThreadDelegate);
 						aThread.start();
 					} catch (IOException e)
@@ -164,13 +158,17 @@ public class TcpServer extends BasicNet implements IServerTCP
 	public ArrayList<String> getAllClientsIp()
 	{
 		ArrayList<String> allClients = new ArrayList<String>();
-		for (int i = 0; i < this.allCommunicationThreads.size(); i++)
-		{
-			CommunicationThread thread = this.allCommunicationThreads.get(i);
 
-			if (thread.isAlive())
+		synchronized (allCommunicationThreads)
+		{
+			for (int i = 0; i < this.allCommunicationThreads.size(); i++)
 			{
-				allClients.add(thread.remoteAddress);
+				CommunicationThread thread = this.allCommunicationThreads.get(i);
+
+				if (thread.isAlive())
+				{
+					allClients.add(thread.remoteAddress);
+				}
 			}
 		}
 
@@ -181,13 +179,17 @@ public class TcpServer extends BasicNet implements IServerTCP
 	public ArrayList<Integer> getAllClientsPort()
 	{
 		ArrayList<Integer> allClients = new ArrayList<Integer>();
-		for (int i = 0; i < this.allCommunicationThreads.size(); i++)
-		{
-			CommunicationThread thread = this.allCommunicationThreads.get(i);
 
-			if (thread.isAlive())
+		synchronized (allCommunicationThreads)
+		{
+			for (int i = 0; i < this.allCommunicationThreads.size(); i++)
 			{
-				allClients.add(thread.remotePort);
+				CommunicationThread thread = this.allCommunicationThreads.get(i);
+
+				if (thread.isAlive())
+				{
+					allClients.add(thread.remotePort);
+				}
 			}
 		}
 
@@ -197,9 +199,12 @@ public class TcpServer extends BasicNet implements IServerTCP
 	@Override
 	public void broadcast(String msg)
 	{
-		for (CommunicationThread thread : this.allCommunicationThreads)
+		synchronized (allCommunicationThreads)
 		{
-			thread.sendMessage(msg);
+			for (CommunicationThread thread : this.allCommunicationThreads)
+			{
+				thread.sendMessage(msg);
+			}
 		}
 	}
 }

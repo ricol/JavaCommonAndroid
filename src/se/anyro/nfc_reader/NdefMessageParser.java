@@ -69,12 +69,9 @@ public class NdefMessageParser
 				elements.add(new ParsedNdefRecord()
 				{
 					@Override
-					public View getView(Activity activity,
-							LayoutInflater inflater, ViewGroup parent,
-							int offset)
+					public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent, int offset)
 					{
-						TextView text = (TextView) inflater.inflate(
-								R.layout.tag_text, parent, false);
+						TextView text = (TextView) inflater.inflate(R.layout.tag_text, parent, false);
 						text.setText(new String(record.getPayload()));
 						return text;
 					}

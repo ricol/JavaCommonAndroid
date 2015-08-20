@@ -90,8 +90,7 @@ public class BluetoothChatService
 	 * @param handler
 	 *            A Handler to send messages back to the UI Activity
 	 */
-	public BluetoothChatService(Context context, Handler handler,
-			String nameSecure, UUID uuid)
+	public BluetoothChatService(Context context, Handler handler, String nameSecure, UUID uuid)
 	{
 		this.mAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -103,10 +102,8 @@ public class BluetoothChatService
 
 		// Initialize array adapters. One for already paired devices and
 		// one for newly discovered devices
-		mPairedDevicesArrayAdapter = new ArrayAdapter<String>(context,
-				android.R.layout.simple_list_item_1);
-		mNewDevicesArrayAdapter = new ArrayAdapter<String>(context,
-				android.R.layout.simple_list_item_1);
+		mPairedDevicesArrayAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1);
+		mNewDevicesArrayAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1);
 	}
 
 	public void updateName(String name)
@@ -144,8 +141,7 @@ public class BluetoothChatService
 		{
 			for (BluetoothDevice device : pairedDevices)
 			{
-				mPairedDevicesArrayAdapter.add(device.getName() + "\n"
-						+ device.getAddress());
+				mPairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
 			}
 		} else
 		{
@@ -181,8 +177,7 @@ public class BluetoothChatService
 		mState = state;
 
 		// Give the new state to the Handler so the UI Activity can update
-		mHandler.obtainMessage(BluetoothChatService.MESSAGE_STATE_CHANGE,
-				state, -1).sendToTarget();
+		mHandler.obtainMessage(BluetoothChatService.MESSAGE_STATE_CHANGE, state, -1).sendToTarget();
 	}
 
 	/**
@@ -207,11 +202,8 @@ public class BluetoothChatService
 
 		if (mAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE)
 		{
-			Intent discoverableIntent = new Intent(
-					BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-			discoverableIntent.putExtra(
-					BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION,
-					DISCOVERY_TIME);
+			Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+			discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, DISCOVERY_TIME);
 			this.context.startActivity(discoverableIntent);
 		}
 
@@ -298,8 +290,7 @@ public class BluetoothChatService
 	 * @param device
 	 *            The BluetoothDevice that has been connected
 	 */
-	private synchronized void connected(BluetoothSocket socket,
-			BluetoothDevice device, final String socketType)
+	private synchronized void connected(BluetoothSocket socket, BluetoothDevice device, final String socketType)
 	{
 		utils.print("connected, Socket Type:" + socketType);
 
@@ -330,8 +321,7 @@ public class BluetoothChatService
 		mConnectedThread.start();
 
 		// Send the name of the connected device back to the UI Activity
-		Message msg = mHandler
-				.obtainMessage(BluetoothChatService.MESSAGE_DEVICE_NAME);
+		Message msg = mHandler.obtainMessage(BluetoothChatService.MESSAGE_DEVICE_NAME);
 		Bundle bundle = new Bundle();
 		bundle.putString(BluetoothChatService.DEVICE_NAME, device.getName());
 		msg.setData(bundle);
@@ -396,8 +386,7 @@ public class BluetoothChatService
 	private void connectionFailed()
 	{
 		// Send a failure message back to the Activity
-		Message msg = mHandler
-				.obtainMessage(BluetoothChatService.MESSAGE_TOAST);
+		Message msg = mHandler.obtainMessage(BluetoothChatService.MESSAGE_TOAST);
 		Bundle bundle = new Bundle();
 		bundle.putString(BluetoothChatService.TOAST, "Unable to connect device");
 		msg.setData(bundle);
@@ -410,11 +399,9 @@ public class BluetoothChatService
 	private void connectionLost()
 	{
 		// Send a failure message back to the Activity
-		Message msg = mHandler
-				.obtainMessage(BluetoothChatService.MESSAGE_TOAST);
+		Message msg = mHandler.obtainMessage(BluetoothChatService.MESSAGE_TOAST);
 		Bundle bundle = new Bundle();
-		bundle.putString(BluetoothChatService.TOAST,
-				"Device connection was lost");
+		bundle.putString(BluetoothChatService.TOAST, "Device connection was lost");
 		msg.setData(bundle);
 		mHandler.sendMessage(msg);
 	}
@@ -438,12 +425,10 @@ public class BluetoothChatService
 			// Create a new listening server socket
 			try
 			{
-				tmp = mAdapter.listenUsingRfcommWithServiceRecord(nameSecure,
-						uuidSecure);
+				tmp = mAdapter.listenUsingRfcommWithServiceRecord(nameSecure, uuidSecure);
 			} catch (IOException e)
 			{
-				utils.print("Socket Type: " + mSocketType
-						+ "listen() failed! exception: " + e);
+				utils.print("Socket Type: " + mSocketType + "listen() failed! exception: " + e);
 			}
 			mmServerSocket = tmp;
 		}
@@ -466,8 +451,7 @@ public class BluetoothChatService
 					socket = mmServerSocket.accept();
 				} catch (IOException e)
 				{
-					utils.print("Socket Type: " + mSocketType
-							+ "accept() failed! exception: " + e);
+					utils.print("Socket Type: " + mSocketType + "accept() failed! exception: " + e);
 					break;
 				}
 
@@ -482,8 +466,7 @@ public class BluetoothChatService
 								break;
 							case STATE_CONNECTING:
 								// Situation normal. Start the connected thread.
-								connected(socket, socket.getRemoteDevice(),
-										mSocketType);
+								connected(socket, socket.getRemoteDevice(), mSocketType);
 								break;
 							case STATE_NONE:
 								break;
@@ -496,8 +479,7 @@ public class BluetoothChatService
 									socket.close();
 								} catch (IOException e)
 								{
-									utils.print("Could not close unwanted socket! exception: "
-											+ e);
+									utils.print("Could not close unwanted socket! exception: " + e);
 								}
 								break;
 						}
@@ -517,8 +499,7 @@ public class BluetoothChatService
 				mmServerSocket.close();
 			} catch (IOException e)
 			{
-				utils.print("Socket Type" + mSocketType
-						+ "close() of server failed! exception: " + e);
+				utils.print("Socket Type" + mSocketType + "close() of server failed! exception: " + e);
 			}
 		}
 	}
@@ -547,8 +528,7 @@ public class BluetoothChatService
 				tmp = device.createRfcommSocketToServiceRecord(uuidSecure);
 			} catch (IOException e)
 			{
-				utils.print("Socket Type: " + mSocketType
-						+ "create() failed! exception: " + e);
+				utils.print("Socket Type: " + mSocketType + "create() failed! exception: " + e);
 			}
 			mmSocket = tmp;
 		}
@@ -575,9 +555,7 @@ public class BluetoothChatService
 					mmSocket.close();
 				} catch (IOException e2)
 				{
-					utils.print("unable to close() " + mSocketType
-							+ " socket during connection failure! Exception: "
-							+ e2);
+					utils.print("unable to close() " + mSocketType + " socket during connection failure! Exception: " + e2);
 				}
 				connectionFailed();
 				return;
@@ -600,8 +578,7 @@ public class BluetoothChatService
 				mmSocket.close();
 			} catch (IOException e)
 			{
-				utils.print("close() of connect " + mSocketType
-						+ " socket failed! Exception: " + e);
+				utils.print("close() of connect " + mSocketType + " socket failed! Exception: " + e);
 			}
 		}
 	}
@@ -652,8 +629,7 @@ public class BluetoothChatService
 					bytes = mmInStream.read(buffer);
 
 					// Send the obtained bytes to the UI Activity
-					mHandler.obtainMessage(BluetoothChatService.MESSAGE_READ,
-							bytes, -1, buffer).sendToTarget();
+					mHandler.obtainMessage(BluetoothChatService.MESSAGE_READ, bytes, -1, buffer).sendToTarget();
 				} catch (IOException e)
 				{
 					utils.print("disconnected! Exception: " + e);
@@ -678,8 +654,7 @@ public class BluetoothChatService
 				mmOutStream.write(buffer);
 
 				// Share the sent message back to the UI Activity
-				mHandler.obtainMessage(BluetoothChatService.MESSAGE_WRITE, -1,
-						-1, buffer).sendToTarget();
+				mHandler.obtainMessage(BluetoothChatService.MESSAGE_WRITE, -1, -1, buffer).sendToTarget();
 			} catch (IOException e)
 			{
 				utils.print("Exception during write! Exception: " + e);
@@ -710,18 +685,15 @@ public class BluetoothChatService
 			if (BluetoothDevice.ACTION_FOUND.equals(action))
 			{
 				// Get the BluetoothDevice object from the Intent
-				BluetoothDevice device = intent
-						.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+				BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 				// If it's already paired, skip it, because it's been listed
 				// already
 				// if (device.getBondState() != BluetoothDevice.BOND_BONDED)
 				// {
-				mNewDevicesArrayAdapter.add(device.getName() + "\n"
-						+ device.getAddress());
+				mNewDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
 				// }
 				// When discovery is finished, change the Activity title
-			} else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED
-					.equals(action))
+			} else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action))
 			{
 				if (mNewDevicesArrayAdapter.getCount() == 0)
 				{
@@ -752,15 +724,13 @@ public class BluetoothChatService
 
 		if (this.mAdapter == null)
 		{
-			Toast.makeText(this.context, "Bluetooth is not available!",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this.context, "Bluetooth is not available!", Toast.LENGTH_LONG).show();
 			return false;
 		}
 
 		if (!this.mAdapter.isEnabled())
 		{
-			Toast.makeText(this.context, "Bluetooth is not enabled!",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this.context, "Bluetooth is not enabled!", Toast.LENGTH_LONG).show();
 			return false;
 		}
 

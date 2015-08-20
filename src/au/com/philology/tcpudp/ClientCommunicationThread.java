@@ -16,9 +16,7 @@ public class ClientCommunicationThread extends CommunicationThread
 
 	IClientDelegate theClientDelegate;
 
-	public ClientCommunicationThread(Socket aClient,
-			IClientDelegate clientDelegate,
-			ICommunicationThreadDelegate communicationThreadDelegate)
+	public ClientCommunicationThread(Socket aClient, IClientDelegate clientDelegate, ICommunicationThreadDelegate communicationThreadDelegate)
 	{
 		super(aClient, communicationThreadDelegate);
 
@@ -29,14 +27,12 @@ public class ClientCommunicationThread extends CommunicationThread
 	public void run()
 	{
 		if (this.theClientDelegate != null)
-			this.theClientDelegate.ConnectionDelegateConnected(
-					this.remoteAddress, this.remotePort);
+			this.theClientDelegate.ConnectionDelegateConnected(this.remoteAddress, this.remotePort);
 
 		this.WaitsForData();
 
 		if (this.theClientDelegate != null)
-			this.theClientDelegate.ConnectionDelegateLostConnection(
-					this.remoteAddress, this.remotePort);
+			this.theClientDelegate.ConnectionDelegateLostConnection(this.remoteAddress, this.remotePort);
 	}
 
 	@Override
@@ -49,8 +45,7 @@ public class ClientCommunicationThread extends CommunicationThread
 															// Templates.
 
 		if (this.theClientDelegate != null)
-			this.theClientDelegate.ClientDelegateMessageReceived(msg,
-					clientAddress, clientPort);
+			this.theClientDelegate.ClientDelegateMessageReceived(msg, clientAddress, clientPort);
 	}
 
 }
