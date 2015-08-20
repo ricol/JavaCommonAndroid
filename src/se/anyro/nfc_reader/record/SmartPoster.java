@@ -82,8 +82,7 @@ public class SmartPoster implements ParsedNdefRecord
 	 */
 	private final String mType;
 
-	private SmartPoster(UriRecord uri, TextRecord title,
-			RecommendedAction action, String type)
+	private SmartPoster(UriRecord uri, TextRecord title, RecommendedAction action, String type)
 	{
 		mUriRecord = Preconditions.checkNotNull(uri);
 		mTitleRecord = title;
@@ -106,10 +105,8 @@ public class SmartPoster implements ParsedNdefRecord
 
 	public static SmartPoster parse(NdefRecord record)
 	{
-		Preconditions
-				.checkArgument(record.getTnf() == NdefRecord.TNF_WELL_KNOWN);
-		Preconditions.checkArgument(Arrays.equals(record.getType(),
-				NdefRecord.RTD_SMART_POSTER));
+		Preconditions.checkArgument(record.getTnf() == NdefRecord.TNF_WELL_KNOWN);
+		Preconditions.checkArgument(Arrays.equals(record.getType(), NdefRecord.RTD_SMART_POSTER));
 		try
 		{
 			NdefMessage subRecords = new NdefMessage(record.getPayload());
@@ -124,10 +121,8 @@ public class SmartPoster implements ParsedNdefRecord
 	{
 		try
 		{
-			Iterable<ParsedNdefRecord> records = NdefMessageParser
-					.getRecords(recordsRaw);
-			UriRecord uri = Iterables.getOnlyElement(Iterables.filter(records,
-					UriRecord.class));
+			Iterable<ParsedNdefRecord> records = NdefMessageParser.getRecords(recordsRaw);
+			UriRecord uri = Iterables.getOnlyElement(Iterables.filter(records, UriRecord.class));
 			TextRecord title = getFirstIfExists(records, TextRecord.class);
 			RecommendedAction action = parseRecommendedAction(recordsRaw);
 			String type = parseType(recordsRaw);
@@ -150,21 +145,17 @@ public class SmartPoster implements ParsedNdefRecord
 		}
 	}
 
-	public View getView(Activity activity, LayoutInflater inflater,
-			ViewGroup parent, int offset)
+	public View getView(Activity activity, LayoutInflater inflater, ViewGroup parent, int offset)
 	{
 		if (mTitleRecord != null)
 		{
 			// Build a container to hold the title and the URI
 			LinearLayout container = new LinearLayout(activity);
 			container.setOrientation(LinearLayout.VERTICAL);
-			container.setLayoutParams(new LayoutParams(
-					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-			container.addView(mTitleRecord.getView(activity, inflater,
-					container, offset));
+			container.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+			container.addView(mTitleRecord.getView(activity, inflater, container, offset));
 			inflater.inflate(R.layout.tag_divider, container);
-			container.addView(mUriRecord.getView(activity, inflater, container,
-					offset));
+			container.addView(mUriRecord.getView(activity, inflater, container, offset));
 			return container;
 		} else
 		{
@@ -190,14 +181,12 @@ public class SmartPoster implements ParsedNdefRecord
 
 	private enum RecommendedAction
 	{
-		UNKNOWN((byte) -1), DO_ACTION((byte) 0), SAVE_FOR_LATER((byte) 1), OPEN_FOR_EDITING(
-				(byte) 2);
+		UNKNOWN((byte) -1), DO_ACTION((byte) 0), SAVE_FOR_LATER((byte) 1), OPEN_FOR_EDITING((byte) 2);
 
 		private static final ImmutableMap<Byte, RecommendedAction> LOOKUP;
 		static
 		{
-			ImmutableMap.Builder<Byte, RecommendedAction> builder = ImmutableMap
-					.builder();
+			ImmutableMap.Builder<Byte, RecommendedAction> builder = ImmutableMap.builder();
 			for (RecommendedAction action : RecommendedAction.values())
 			{
 				builder.put(action.getByte(), action);

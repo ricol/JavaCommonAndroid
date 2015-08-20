@@ -19,9 +19,7 @@ public class ServerCommunicationThread extends CommunicationThread
 
 	public final static String DEFAULT_WELCOME_MSG = "Welcome!";
 
-	public ServerCommunicationThread(Socket aClient, String welcomeMsg,
-			IServerDelegate serverdelegate,
-			ICommunicationThreadDelegate communicationThreadDelegate)
+	public ServerCommunicationThread(Socket aClient, String welcomeMsg, IServerDelegate serverdelegate, ICommunicationThreadDelegate communicationThreadDelegate)
 	{
 		super(aClient, communicationThreadDelegate);
 		this.welcomeMsg = welcomeMsg;
@@ -32,16 +30,14 @@ public class ServerCommunicationThread extends CommunicationThread
 	public void run()
 	{
 		if (this.theServerDelegate != null)
-			this.theServerDelegate.ConnectionDelegateConnected(
-					this.remoteAddress, this.remotePort);
+			this.theServerDelegate.ConnectionDelegateConnected(this.remoteAddress, this.remotePort);
 
 		this.sendMessage(this.welcomeMsg);
 
 		this.WaitsForData();
 
 		if (this.theServerDelegate != null)
-			this.theServerDelegate.ConnectionDelegateLostConnection(
-					this.remoteAddress, this.remotePort);
+			this.theServerDelegate.ConnectionDelegateLostConnection(this.remoteAddress, this.remotePort);
 
 	}
 
@@ -55,7 +51,6 @@ public class ServerCommunicationThread extends CommunicationThread
 															// Templates.
 
 		if (this.theServerDelegate != null)
-			this.theServerDelegate.ServerDelegateClientMessageReceived(msg,
-					clientAddress, clientPort);
+			this.theServerDelegate.ServerDelegateClientMessageReceived(msg, clientAddress, clientPort);
 	}
 }

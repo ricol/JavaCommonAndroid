@@ -13,11 +13,9 @@ public class IPAddress
 	{
 		String iIPv4 = "";
 
-		WifiManager wm = (WifiManager) theContext
-				.getSystemService(Context.WIFI_SERVICE);
+		WifiManager wm = (WifiManager) theContext.getSystemService(Context.WIFI_SERVICE);
 
-		iIPv4 = Formatter
-				.formatIpAddress(wm.getConnectionInfo().getIpAddress());
+		iIPv4 = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
 
 		return iIPv4;
 	}

@@ -14,8 +14,7 @@ public class ScannerPortForIpThread extends Thread
 	int timeout;
 	IScanDelegate scanDelegate;
 
-	public ScannerPortForIpThread(String ip, int timeout, int startPort,
-			int endPort, IScanDelegate scanDelegate)
+	public ScannerPortForIpThread(String ip, int timeout, int startPort, int endPort, IScanDelegate scanDelegate)
 	{
 		this.ip = ip;
 		this.startPort = startPort;
@@ -27,17 +26,13 @@ public class ScannerPortForIpThread extends Thread
 	@Override
 	public void run()
 	{
-		int tmpStart = this.startPort >= 0 && this.startPort <= 255 * 255 ? this.startPort
-				: 0;
-		int tmpEnd = this.endPort >= tmpStart && this.endPort <= 255 * 255 ? this.endPort
-				: 255 * 255;
-		int tmpTimeout = this.timeout >= 10 && this.timeout <= 1000 ? this.timeout
-				: 50;
+		int tmpStart = this.startPort >= 0 && this.startPort <= 255 * 255 ? this.startPort : 0;
+		int tmpEnd = this.endPort >= tmpStart && this.endPort <= 255 * 255 ? this.endPort : 255 * 255;
+		int tmpTimeout = this.timeout >= 10 && this.timeout <= 1000 ? this.timeout : 50;
 
 		if (scanDelegate != null)
 		{
-			scanDelegate.ScanDelegateStartScanningPortForIp(ip, tmpStart,
-					tmpEnd);
+			scanDelegate.ScanDelegateStartScanningPortForIp(ip, tmpStart, tmpEnd);
 		}
 
 		for (int i = tmpStart; i <= tmpEnd; i++)
@@ -82,8 +77,7 @@ public class ScannerPortForIpThread extends Thread
 
 		if (scanDelegate != null)
 		{
-			scanDelegate.ScanDelegateCompleteScanningPortForIp(ip, tmpStart,
-					tmpEnd);
+			scanDelegate.ScanDelegateCompleteScanningPortForIp(ip, tmpStart, tmpEnd);
 		}
 	}
 }

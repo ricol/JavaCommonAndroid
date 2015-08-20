@@ -11,37 +11,28 @@ public class DialogConfirm
 	public int tag;
 	AlertDialog dialog;
 
-	public DialogConfirm(Activity theActivity, String title, String msg, View view, 
-			IDialogConfirmDelegate delegate, int tag)
+	public DialogConfirm(Activity theActivity, String title, String msg, View view, IDialogConfirmDelegate delegate, int tag)
 	{
 		this.theDelegate = delegate;
 		this.tag = tag;
 		final View theView = view;
-		
-		dialog = new AlertDialog.Builder(theActivity)
-				.setIconAttribute(android.R.attr.alertDialogIcon)
-				.setTitle(title)
-				.setMessage(msg)
-				.setView(view)
+
+		dialog = new AlertDialog.Builder(theActivity).setIconAttribute(android.R.attr.alertDialogIcon).setTitle(title).setMessage(msg).setView(view)
 				.setPositiveButton("OK", new DialogInterface.OnClickListener()
 				{
 					public void onClick(DialogInterface dialog, int whichButton)
 					{
 						theDelegate.dialogConfirmOnOk(DialogConfirm.this, theView);
 					}
-				})
-				.setNegativeButton("CANCEL",
-						new DialogInterface.OnClickListener()
-						{
-							public void onClick(DialogInterface dialog,
-									int whichButton)
-							{
-								theDelegate
-										.dialogConfirmOnCancel(DialogConfirm.this, theView);
-							}
-						}).create();
+				}).setNegativeButton("CANCEL", new DialogInterface.OnClickListener()
+				{
+					public void onClick(DialogInterface dialog, int whichButton)
+					{
+						theDelegate.dialogConfirmOnCancel(DialogConfirm.this, theView);
+					}
+				}).create();
 	}
-	
+
 	public void show()
 	{
 		dialog.show();

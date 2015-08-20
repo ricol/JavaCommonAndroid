@@ -56,8 +56,7 @@ public class TcpClient extends BasicNet implements IClientTCP
 				}
 			} catch (IOException ex)
 			{
-				Logger.getLogger(TcpClient.class.getName()).log(Level.SEVERE,
-						null, ex);
+				Logger.getLogger(TcpClient.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}
 	}
@@ -91,8 +90,7 @@ public class TcpClient extends BasicNet implements IClientTCP
 		String serverAddress;
 		int port;
 
-		public ClientThread(String serverAddress, int port,
-				ICommunicationThreadDelegate communicationThreadDelegate)
+		public ClientThread(String serverAddress, int port, ICommunicationThreadDelegate communicationThreadDelegate)
 		{
 			this.serverAddress = serverAddress;
 			this.port = port;
@@ -106,13 +104,10 @@ public class TcpClient extends BasicNet implements IClientTCP
 			{
 				disconnect();
 
-				InetAddress serverAddress = InetAddress
-						.getByName(this.serverAddress);
+				InetAddress serverAddress = InetAddress.getByName(this.serverAddress);
 
 				theConnectionSocket = new Socket(serverAddress, this.port);
-				theCommunicationThread = new ClientCommunicationThread(
-						theConnectionSocket, theClientDelegate,
-						this.communicationThreadDelegate);
+				theCommunicationThread = new ClientCommunicationThread(theConnectionSocket, theClientDelegate, this.communicationThreadDelegate);
 				theCommunicationThread.start();
 			} catch (UnknownHostException e)
 			{

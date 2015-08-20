@@ -18,21 +18,17 @@ public abstract class CommunicationThread extends Thread
 	PrintWriter out;
 	ICommunicationThreadDelegate communicationThreadDelegate;
 
-	public CommunicationThread(Socket aClient,
-			ICommunicationThreadDelegate communicationThreadDelegate)
+	public CommunicationThread(Socket aClient, ICommunicationThreadDelegate communicationThreadDelegate)
 	{
 		this.communicationThreadDelegate = communicationThreadDelegate;
 		this.aClientSocket = aClient;
-		String[] remoteIp = this.aClientSocket.getRemoteSocketAddress()
-				.toString().split(":");
+		String[] remoteIp = this.aClientSocket.getRemoteSocketAddress().toString().split(":");
 		this.remoteAddress = remoteIp[0].split("/")[1];
 		this.remotePort = Integer.parseInt(remoteIp[1]);
 		try
 		{
-			this.read = new BufferedReader(new InputStreamReader(
-					this.aClientSocket.getInputStream()));
-			this.out = new PrintWriter(new BufferedWriter(
-					new OutputStreamWriter(aClient.getOutputStream())), true);
+			this.read = new BufferedReader(new InputStreamReader(this.aClientSocket.getInputStream()));
+			this.out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(aClient.getOutputStream())), true);
 		} catch (IOException e)
 		{
 			e.printStackTrace();
@@ -44,7 +40,7 @@ public abstract class CommunicationThread extends Thread
 		this.out.write(msg + "\n");
 		this.out.flush();
 	}
-	
+
 	public void sendMessage(char[] data)
 	{
 		this.out.write(data);
@@ -58,7 +54,7 @@ public abstract class CommunicationThread extends Thread
 	{
 		if (this.communicationThreadDelegate != null)
 			this.communicationThreadDelegate.CommunicationThreadStart(this);
-		
+
 		while (!Thread.currentThread().isInterrupted())
 		{
 			String content;

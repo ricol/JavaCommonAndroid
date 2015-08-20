@@ -12,8 +12,7 @@ package au.com.philology.tcpudp;
 public interface IServerDelegate extends IConnectionDelegate
 {
 
-	public void ServerDelegateClientMessageReceived(String msg,
-			String clientAddress, int clientPort);
+	public void ServerDelegateClientMessageReceived(String msg, String clientAddress, int clientPort);
 
 	public void ServerDelegateStartListening(int port);
 
