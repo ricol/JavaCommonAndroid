@@ -254,43 +254,61 @@ public class UsbService extends Service
 		@Override
 		public void run()
 		{
-			serialPort = UsbSerialDevice.createUsbSerialDevice(device, connection);
-			if (serialPort != null)
+			try
 			{
-				if (serialPort.open())
+				serialPort = UsbSerialDevice.createUsbSerialDevice(device, connection);
+				if (serialPort != null)
 				{
-					serialPort.setBaudRate(BAUD_RATE);
-					serialPort.setDataBits(UsbSerialInterface.DATA_BITS_8);
-					serialPort.setStopBits(UsbSerialInterface.STOP_BITS_1);
-					serialPort.setParity(UsbSerialInterface.PARITY_NONE);
-					serialPort.setFlowControl(UsbSerialInterface.FLOW_CONTROL_OFF);
-					serialPort.read(mCallback);
-
-					// Everything went as expected. Send an intent to
-					// MainActivity
-					Intent intent = new Intent(ACTION_USB_READY);
-					context.sendBroadcast(intent);
-				} else
-				{
-					// Serial port could not be opened, maybe an I/O error or if
-					// CDC driver was chosen, it does not really fit
-					// Send an Intent to Main Activity
-					if (serialPort instanceof CDCSerialDevice)
+					if (serialPort.open())
 					{
-						Intent intent = new Intent(ACTION_CDC_DRIVER_NOT_WORKING);
-						context.sendBroadcast(intent);
+						serialPort.setBaudRate(BAUD_RATE);
+						serialPort.setDataBits(UsbSerialInterface.DATA_BITS_8);
+						serialPort.setStopBits(UsbSerialInterface.STOP_BITS_1);
+						serialPort.setParity(UsbSerialInterface.PARITY_NONE);
+						serialPort.setFlowControl(UsbSerialInterface.FLOW_CONTROL_OFF);
+						serialPort.read(mCallback);
+
+						// Everything went as expected. Send an intent to
+						// MainActivity
+						if (context != null)
+						{
+							Intent intent = new Intent(ACTION_USB_READY);
+							context.sendBroadcast(intent);
+						}
 					} else
 					{
-						Intent intent = new Intent(ACTION_USB_DEVICE_NOT_WORKING);
-						context.sendBroadcast(intent);
+						// Serial port could not be opened, maybe an I/O error
+						// or if
+						// CDC driver was chosen, it does not really fit
+						// Send an Intent to Main Activity
+						if (context != null)
+						{
+							if (serialPort instanceof CDCSerialDevice)
+							{
+								Intent intent = new Intent(ACTION_CDC_DRIVER_NOT_WORKING);
+								context.sendBroadcast(intent);
+							} else
+							{
+								Intent intent = new Intent(ACTION_USB_DEVICE_NOT_WORKING);
+								context.sendBroadcast(intent);
+							}
+						}
 					}
+				} else
+				{
+					// No driver for given device, even generic CDC driver could
+					// not
+					// be loaded
+					Intent intent = new Intent(ACTION_USB_NOT_SUPPORTED);
+					context.sendBroadcast(intent);
 				}
-			} else
+			} catch (Exception e)
 			{
-				// No driver for given device, even generic CDC driver could not
-				// be loaded
-				Intent intent = new Intent(ACTION_USB_NOT_SUPPORTED);
-				context.sendBroadcast(intent);
+				if (context != null)
+				{
+					Intent intent = new Intent(ACTION_USB_DEVICE_NOT_WORKING);
+					context.sendBroadcast(intent);
+				}
 			}
 		}
 	}
