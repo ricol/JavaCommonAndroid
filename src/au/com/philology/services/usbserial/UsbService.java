@@ -241,7 +241,18 @@ public class UsbService extends Service
 				arg0.sendBroadcast(intent);
 				serialPortConnected = false;
 				if (serialPort != null)
-					serialPort.close();
+				{
+					try
+					{
+						serialPort.close();
+					} catch (Exception e)
+					{
+
+					} finally
+					{
+
+					}
+				}
 			}
 		}
 	};
